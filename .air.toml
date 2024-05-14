@@ -1,0 +1,31 @@
+# .air.toml
+
+# Config file for Air (Live reload for Go applications)
+root = "."
+tmp_dir = "tmp"
+[build]
+  cmd = "go build -o ./tmp/main.exe -buildvcs=false ."
+  bin = "tmp/main.exe"
+  include_ext = ["go", "tpl", "tmpl", "html"]
+  exclude_dir = ["assets", "tmp", "vendor", "docs"]
+  exclude_file = []
+  follow_symlink = true
+  full_build = false
+
+[log]
+  level = "debug"
+  color = true
+  timestamp = false
+
+[server]
+  shell = "cmd"
+  cmd = "tmp\\main.exe"
+  port = 8000
+  watch_dir = ["."]
+  watch_exclude_dir = ["tmp", "vendor", "docs"]
+  watch_include_ext = ["go", "tpl", "tmpl", "html"]
+  watch_delay = 1000000000
+  watch_full = false
+  kill_on_error = false
+  kill_timeout = 3000000000
+  restart_delay = 0
