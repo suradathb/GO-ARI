@@ -3,6 +3,9 @@ package main
 import (
 	_ "go-ari/docs" // swagger documentation
 	"go-ari/routes"
+	"log"
+
+	_ "go-ari/docs" // swagger documentation
 
 	"github.com/gin-gonic/gin"
 	swaggerFiles "github.com/swaggo/files"     // swagger embed files
@@ -27,12 +30,17 @@ import (
 func main() {
 	r := gin.Default()
 
+	// Configure trusted proxies
+	err := r.SetTrustedProxies([]string{"192.168.1.1", "192.168.1.2"})
+	if err != nil {
+		log.Fatalf("Failed to set trusted proxies: %v", err)
+	}
 	// Swagger route
 	r.GET("/swagger/*any", ginSwagger.WrapHandler(swaggerFiles.Handler))
 
 	// Register routes
 	routes.RegisterBookRoutes(r)
-
+	routes.RegisterProductRoutes(r)
 	// Start server
 	r.Run(":8080")
 }
